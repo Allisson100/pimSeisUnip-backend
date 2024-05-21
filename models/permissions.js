@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Permissions.belongsTo(models.Employees, { foreignKey: "value" });
+      Permissions.belongsTo(models.Employees, { foreignKey: "uuid" });
     }
   }
   Permissions.init(
@@ -24,13 +24,13 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.UUID,
         defaultValue: DataTypes.UUIDV4,
       },
-      type: {
-        type: DataTypes.STRING,
-        defaultValue: "atendente",
+      endpoints: {
+        type: DataTypes.JSON,
+        allowNull: true,
       },
-      value: {
-        type: DataTypes.BIGINT,
-        defaultValue: 0,
+      name: {
+        type: DataTypes.STRING,
+        allowNull: true,
       },
     },
     {

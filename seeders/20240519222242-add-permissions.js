@@ -10,22 +10,22 @@ module.exports = {
       [
         {
           uuid: uuidv4(),
-          type: "atendente",
-          value: 0,
+          endpoints: JSON.stringify(["/"]),
+          name: "atendente",
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
           uuid: uuidv4(),
-          type: "estoquista",
-          value: 1,
+          endpoints: JSON.stringify(["/"]),
+          name: "estoquista",
           createdAt: new Date(),
           updatedAt: new Date(),
         },
         {
           uuid: uuidv4(),
-          type: "supervisor",
-          value: 2,
+          endpoints: JSON.stringify(["/"]),
+          name: "supervisor",
           createdAt: new Date(),
           updatedAt: new Date(),
         },

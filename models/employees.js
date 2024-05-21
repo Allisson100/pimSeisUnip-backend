@@ -9,18 +9,33 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Employees.belongsTo(models.Permissions, { foreignKey: "value" });
+      Employees.belongsTo(models.Permissions, { foreignKey: "uuid" });
     }
   }
   Employees.init(
     {
-      name: DataTypes.STRING,
-      email: DataTypes.STRING,
-      password: DataTypes.STRING,
-      rg: DataTypes.STRING,
-      cpf: DataTypes.STRING,
-      cep: DataTypes.STRING,
-      permission_value: DataTypes.BIGINT,
+      name: {
+        type: DataTypes.STRING,
+      },
+      email: {
+        type: DataTypes.STRING,
+      },
+      password: {
+        type: DataTypes.STRING,
+      },
+      rg: {
+        type: DataTypes.STRING,
+      },
+      cpf: {
+        type: DataTypes.STRING,
+      },
+      cep: {
+        type: DataTypes.STRING,
+      },
+      permission_uuid: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
     },
     {
       sequelize,

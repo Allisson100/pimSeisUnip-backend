@@ -17,7 +17,7 @@ module.exports = {
           rg: "123456789",
           cpf: "12345678910",
           cep: "08320040",
-          permission_value: 2,
+          permission_uuid: "",
           createdAt: new Date(),
           updatedAt: new Date(),
         },

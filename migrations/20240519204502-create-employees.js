@@ -40,8 +40,8 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
-      permission_value: {
-        type: Sequelize.BIGINT,
+      permission_uuid: {
+        type: Sequelize.STRING,
         allowNull: false,
       },
       createdAt: {

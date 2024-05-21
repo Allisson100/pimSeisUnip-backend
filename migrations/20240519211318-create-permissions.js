@@ -14,13 +14,13 @@ module.exports = {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,
       },
-      type: {
-        type: Sequelize.STRING,
-        defaultValue: "atendente",
+      endpoints: {
+        type: Sequelize.JSON,
+        allowNull: true,
       },
-      value: {
-        type: Sequelize.BIGINT,
-        defaultValue: 0,
+      name: {
+        type: Sequelize.STRING,
+        allowNull: true,
       },
       createdAt: {
         allowNull: false,
