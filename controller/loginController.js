@@ -22,8 +22,6 @@ exports.login = async (req, res) => {
       ],
     });
 
-    console.log("user", user.Permission.dataValues.name);
-
     if (user) {
       const userPassword = user?.dataValues?.password;
       const passwordMatch = await bcrypt.compare(password, userPassword);
@@ -35,6 +33,7 @@ exports.login = async (req, res) => {
             email: user?.dataValues?.email || null,
             cpf: user?.dataValues?.cpf || null,
             permission: user?.Permission?.dataValues?.name || null,
+            permissionPaths: user?.Permission?.dataValues || null,
           },
           process.env.JWT_SECRET,
           { expiresIn: TOKEN_EXPIRATION_TIME }
