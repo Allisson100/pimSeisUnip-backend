@@ -16,6 +16,18 @@ module.exports = (sequelize, DataTypes) => {
   }
   Sales.init(
     {
+      id: {
+        autoIncrement: true,
+        type: DataTypes.BIGINT.UNSIGNED,
+        allowNull: false,
+        primaryKey: true,
+      },
+      uuid: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        allowNull: false,
+        primaryKey: true,
+      },
       products: {
         type: DataTypes.JSON,
         defaultValue: [],

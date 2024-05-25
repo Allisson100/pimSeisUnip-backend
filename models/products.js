@@ -16,6 +16,18 @@ module.exports = (sequelize, DataTypes) => {
   }
   Products.init(
     {
+      id: {
+        autoIncrement: true,
+        type: DataTypes.BIGINT.UNSIGNED,
+        allowNull: false,
+        primaryKey: true,
+      },
+      uuid: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        allowNull: false,
+        primaryKey: true,
+      },
       barcode: {
         type: DataTypes.STRING,
         allowNull: false,
