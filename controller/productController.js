@@ -1,4 +1,5 @@
 const db = require("../models/index");
+const { Op } = require("sequelize");
 
 const Employees = db.Employees;
 const Permissions = db.Permissions;
@@ -22,6 +23,81 @@ exports.createProduct = async (req, res) => {
       message: "Produto cadastrada com sucesso.",
       success: true,
     });
+  } catch (error) {
+    res.status(200).json({
+      message: error?.message || "Erro ao cadastrar produto.",
+      success: false,
+    });
+  }
+};
+
+exports.listProducts = async (req, res) => {
+  try {
+    const { page, size } = req.params;
+    const { searchingFor } = req.query;
+
+    const getPage = parseFloat(page);
+    const newPage = Number(getPage - 1);
+
+    if (
+      searchingFor !== null &&
+      searchingFor !== undefined &&
+      searchingFor !== ""
+    ) {
+      const productsFiltered = await Products.findAll({
+        where: {
+          [Op.or]: [
+            {
+              barcode: {
+                [Op.like]: `%${searchingFor}%`,
+              },
+            },
+            {
+              name: {
+                [Op.like]: `%${searchingFor}%`,
+              },
+            },
+            {
+              category: {
+                [Op.like]: `%${searchingFor}%`,
+              },
+            },
+            {
+              manufacturer: {
+                [Op.like]: `%${searchingFor}%`,
+              },
+            },
+            {
+              price: {
+                [Op.like]: `%${searchingFor}%`,
+              },
+            },
+            {
+              platform: {
+                [Op.like]: `%${searchingFor}%`,
+              },
+            },
+          ],
+        },
+      });
+
+      res.status(200).json({
+        productsFiltered,
+        message: "Lista de produtos carregada com sucesso.",
+        success: true,
+      });
+    } else {
+      const products = await Products.findAll({
+        offset: newPage * size,
+        limit: parseInt(size),
+      });
+
+      res.status(200).json({
+        products,
+        message: "Lista de produtos carregada com sucesso.",
+        success: true,
+      });
+    }
   } catch (error) {
     res.status(200).json({
       message: error?.message || "Erro ao cadastrar produto.",
