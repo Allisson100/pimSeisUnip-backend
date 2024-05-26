@@ -127,3 +127,49 @@ exports.deleteProduct = async (req, res) => {
     });
   }
 };
+
+exports.findProductById = async (req, res) => {
+  try {
+    const { uuid } = req.params;
+
+    const product = await Products.findOne({
+      where: {
+        uuid: uuid,
+      },
+    });
+
+    res.status(200).json({
+      product,
+      message: "Produto encontrado com sucesso.",
+      success: true,
+    });
+  } catch (error) {
+    res.status(200).json({
+      message: error?.message || "Erro ao procurar produto.",
+      success: false,
+    });
+  }
+};
+
+exports.editProduct = async (req, res) => {
+  try {
+    const { uuid } = req.params;
+    const datas = req.body;
+
+    await Products.update(datas, {
+      where: {
+        uuid: uuid,
+      },
+    });
+
+    res.status(200).json({
+      message: "Produto editado com sucesso.",
+      success: true,
+    });
+  } catch (error) {
+    res.status(200).json({
+      message: error?.message || "Erro ao editar produto.",
+      success: false,
+    });
+  }
+};
