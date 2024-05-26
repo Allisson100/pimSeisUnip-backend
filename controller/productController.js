@@ -82,7 +82,7 @@ exports.listProducts = async (req, res) => {
       });
 
       res.status(200).json({
-        productsFiltered,
+        products: productsFiltered,
         message: "Lista de produtos carregada com sucesso.",
         success: true,
       });
