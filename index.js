@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const loginRoutes = require("./routes/loginRoutes");
 const productsRoutes = require("./routes/productsRoutes");
+const clientsRoutes = require("./routes/clientsRoutes");
 const path = require("path");
 
 const app = express();
@@ -12,6 +13,7 @@ app.use(express.json());
 
 app.use("/login", loginRoutes);
 app.use("/products", productsRoutes);
+app.use("/clients", clientsRoutes);
 app.use("/uploads", express.static(path.join(__dirname, "./uploads")));
 
 app.use("/", (req, res) => {
