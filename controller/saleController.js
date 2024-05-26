@@ -1,6 +1,20 @@
 const db = require("../models/index");
 
 const Sales = db.Sales;
+const Clients = db.Clients;
+const Products = db.Products;
+
+const getClientProv = async (uuid) => {
+  const client = await Clients.findOne({
+    where: {
+      uuid: uuid,
+    },
+  });
+
+  return {
+    ...client.dataValues,
+  };
+};
 
 exports.createSale = async (req, res) => {
   try {
@@ -30,8 +44,43 @@ exports.listSales = async (req, res) => {
   try {
     const sales = await Sales.findAll();
 
+    const newArray = await Promise.all(
+      sales?.map(async (sale) => {
+        const getObservations = JSON.parse(sale?.dataValues?.observations);
+        const getProducts = JSON.parse(sale?.dataValues?.products);
+
+        return {
+          id: 1,
+          uuid: sale?.dataValues?.uuid,
+          products: await Promise.all(
+            getProducts?.map(async (item) => {
+              console.log("item", item);
+              const { dataValues } = await Products.findOne({
+                where: {
+                  uuid: item,
+                },
+              });
+
+              return {
+                ...dataValues,
+              };
+            })
+          ),
+          client_uuid: sale?.dataValues?.client_uuid,
+          client: await getClientProv(sale?.dataValues?.client_uuid),
+          price: sale?.dataValues?.price,
+          payment_method: sale?.dataValues?.payment_method,
+          payment_status: sale?.dataValues?.payment_status,
+          sale_status: sale?.dataValues?.sale_status,
+          observations: getObservations,
+          createdAt: sale?.dataValues?.createdAt,
+          updatedAt: sale?.dataValues?.updatedAt,
+        };
+      })
+    );
+
     res.status(200).json({
-      sales,
+      newArray,
       message: "Lista de vendas carregada com sucesso.",
       success: true,
     });
