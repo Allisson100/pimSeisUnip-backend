@@ -105,3 +105,25 @@ exports.listProducts = async (req, res) => {
     });
   }
 };
+
+exports.deleteProduct = async (req, res) => {
+  try {
+    const { uuid } = req.params;
+
+    await Products.destroy({
+      where: {
+        uuid: uuid,
+      },
+    });
+
+    res.status(200).json({
+      message: "Produto deletado com sucesso.",
+      success: true,
+    });
+  } catch (error) {
+    res.status(200).json({
+      message: error?.message || "Erro ao deletar produto.",
+      success: false,
+    });
+  }
+};
