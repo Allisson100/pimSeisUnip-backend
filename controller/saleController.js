@@ -50,11 +50,10 @@ exports.listSales = async (req, res) => {
         const getProducts = JSON.parse(sale?.dataValues?.products);
 
         return {
-          id: 1,
+          id: sale?.dataValues?.id,
           uuid: sale?.dataValues?.uuid,
           products: await Promise.all(
             getProducts?.map(async (item) => {
-              console.log("item", item);
               const { dataValues } = await Products.findOne({
                 where: {
                   uuid: item,
@@ -67,6 +66,7 @@ exports.listSales = async (req, res) => {
             })
           ),
           client_uuid: sale?.dataValues?.client_uuid,
+          canceled: sale?.dataValues?.canceled,
           client: await getClientProv(sale?.dataValues?.client_uuid),
           price: sale?.dataValues?.price,
           payment_method: sale?.dataValues?.payment_method,
@@ -80,13 +80,39 @@ exports.listSales = async (req, res) => {
     );
 
     res.status(200).json({
-      newArray,
+      sales: newArray,
       message: "Lista de vendas carregada com sucesso.",
       success: true,
     });
   } catch (error) {
     res.status(200).json({
       message: error?.message || "Erro ao buscar vendas.",
+      success: false,
+    });
+  }
+};
+
+exports.cancelSales = async (req, res) => {
+  try {
+    const { uuid } = req.params;
+
+    const dataToUpdate = {
+      canceled: true,
+    };
+
+    await Sales.update(dataToUpdate, {
+      where: {
+        uuid: uuid,
+      },
+    });
+
+    res.status(200).json({
+      message: "Venda cancelada com sucesso.",
+      success: true,
+    });
+  } catch (error) {
+    res.status(200).json({
+      message: error?.message || "Erro ao cancelar venda.",
       success: false,
     });
   }
