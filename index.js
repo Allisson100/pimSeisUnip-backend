@@ -4,6 +4,7 @@ const cors = require("cors");
 const loginRoutes = require("./routes/loginRoutes");
 const productsRoutes = require("./routes/productsRoutes");
 const clientsRoutes = require("./routes/clientsRoutes");
+const salesRoutes = require("./routes/salesRoutes");
 const path = require("path");
 
 const app = express();
@@ -14,6 +15,7 @@ app.use(express.json());
 app.use("/login", loginRoutes);
 app.use("/products", productsRoutes);
 app.use("/clients", clientsRoutes);
+app.use("/sales", salesRoutes);
 app.use("/uploads", express.static(path.join(__dirname, "./uploads")));
 
 app.use("/", (req, res) => {
